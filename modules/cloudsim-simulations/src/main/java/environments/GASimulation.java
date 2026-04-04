@@ -8,27 +8,41 @@
  */
 
 
-package environments.PSO;
+package environments;
 
+import technicals.datacenterLarge;
+import technicals.datacenterSmall;
 import technicals.simulationParameters;
 
+import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.cloudbus.cloudsim.Cloudlet;
 import org.cloudbus.cloudsim.Datacenter;
 import org.cloudbus.cloudsim.DatacenterBroker;
+import org.cloudbus.cloudsim.DatacenterCharacteristics;
+import org.cloudbus.cloudsim.Host;
 import org.cloudbus.cloudsim.Log;
+import org.cloudbus.cloudsim.Pe;
+import org.cloudbus.cloudsim.Storage;
 import org.cloudbus.cloudsim.Vm;
+import org.cloudbus.cloudsim.VmAllocationPolicySimple;
+import org.cloudbus.cloudsim.VmSchedulerTimeShared;
 import org.cloudbus.cloudsim.core.CloudSim;
+import org.cloudbus.cloudsim.provisioners.BwProvisionerSimple;
+import org.cloudbus.cloudsim.provisioners.PeProvisionerSimple;
+import org.cloudbus.cloudsim.provisioners.RamProvisionerSimple;
 
-import brokers.CustomMLBased.PSODatacenterBroker;
+import brokers.GeneticAlgorithm.GeneticAlgorithmDatacenterBroker;
 
 /**
  * An example showing how to create
  * scalable simulations.
  */
-public class PSOSingularDatacenterHeterogenous {
+public class GASimulation {
 	public static DatacenterBroker broker;
 
 	/** The cloudlet list. */
@@ -38,7 +52,7 @@ public class PSOSingularDatacenterHeterogenous {
 	private static List<Vm> vmlist;
 
 	public static void main(String[] args) {
-		Log.println("Starting PSOSingularDatacenter...");
+		Log.println("Starting baselineSingularDatacenter...");
 
 		try {
 			simulationParameters sp = new simulationParameters();
@@ -53,15 +67,17 @@ public class PSOSingularDatacenterHeterogenous {
 
 			// Second step: Create Datacenters
 			//Datacenters are the resource providers in CloudSim. We need at least one of them to run a CloudSim simulation
-			 // num of VMs and hosts
-			Datacenter datacenter0 = sp.createDatacenter("Datacenter_0", sp.num_vms_singleDC, sp.bw, 1);
+			Datacenter datacenter0 = datacenterLarge.createDatacenter("Datacenter_0");
+			Datacenter datacenter1 = datacenterSmall.createDatacenter("Datacenter_1");
+			Datacenter datacenter2 = datacenterSmall.createDatacenter("Datacenter_2");
+			Datacenter datacenter3 = datacenterSmall.createDatacenter("Datacenter_3");
 
 			//Third step: Create Broker
-			broker = new PSODatacenterBroker("Broker");;
+			broker = new GeneticAlgorithmDatacenterBroker("Broker");;
 			int brokerId = broker.getId();
 
-			vmlist = sp.createVM(brokerId,sp.num_vms_singleDC);
-			cloudletList = sp.createCloudletHeterogenous(brokerId,sp.cloudletNumber);
+			vmlist = sp.createVM(brokerId,sp.num_vms_singleDC*4); 
+			cloudletList = sp.createCloudletHeterogenous(brokerId,sp.cloudletNumber); 
 
 			broker.submitGuestList(vmlist);
 			broker.submitCloudletList(cloudletList);
@@ -76,9 +92,9 @@ public class PSOSingularDatacenterHeterogenous {
 
 			//printCloudletList(newList);
 			String path = "modules/cloudsim-simulations/src/main/java/results/";
-			sp.writeCloudletListToCSV(newList, path + "PSOSingularDatacenterHeterogenous.csv");
+			sp.writeCloudletListToCSV(newList, path + "GA.csv");
 
-			Log.println("PSO finished!");
+			Log.println("CloudSimExample6 finished!");
 		}
 		catch (Exception e)
 		{
@@ -86,5 +102,5 @@ public class PSOSingularDatacenterHeterogenous {
 			Log.println("The simulation has been terminated due to an unexpected error");
 		}
 	}
-
+	
 }

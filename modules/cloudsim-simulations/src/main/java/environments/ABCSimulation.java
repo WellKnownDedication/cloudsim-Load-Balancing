@@ -8,11 +8,12 @@
  */
 
 
-package environments.baseline;
+package environments;
 
+import technicals.datacenterLarge;
+import technicals.datacenterSmall;
 import technicals.simulationParameters;
 
-import java.text.DecimalFormat;
 import java.util.Calendar;
 import java.util.List;
 
@@ -23,11 +24,14 @@ import org.cloudbus.cloudsim.Log;
 import org.cloudbus.cloudsim.Vm;
 import org.cloudbus.cloudsim.core.CloudSim;
 
+
+import brokers.CustomMLBased.ABCDatacenterBroker;
+
 /**
  * An example showing how to create
  * scalable simulations.
  */
-public class baselineMultiDatacenterHeterogenous {
+public class ABCSimulation {
 	public static DatacenterBroker broker;
 
 	/** The cloudlet list. */
@@ -52,17 +56,17 @@ public class baselineMultiDatacenterHeterogenous {
 
 			// Second step: Create Datacenters
 			//Datacenters are the resource providers in CloudSim. We need at least one of them to run a CloudSim simulation
-			Datacenter datacenter0 = sp.createDatacenter("Datacenter_0", 2, sp.bw, 0.8);
-			Datacenter datacenter1 = sp.createDatacenter("Datacenter_1", 4, sp.bw+200, 1.2);
-			Datacenter datacenter2 = sp.createDatacenter("Datacenter_2", 2, sp.bw-200, 1);
-			Datacenter datacenter3 = sp.createDatacenter("Datacenter_3", 4, sp.bw-200, 3);
+			Datacenter datacenter0 = datacenterLarge.createDatacenter("Datacenter_0");
+			Datacenter datacenter1 = datacenterSmall.createDatacenter("Datacenter_1");
+			Datacenter datacenter2 = datacenterSmall.createDatacenter("Datacenter_2");
+			Datacenter datacenter3 = datacenterSmall.createDatacenter("Datacenter_3");
 
 			//Third step: Create Broker
-			broker = new DatacenterBroker("Broker");;
+			broker = new ABCDatacenterBroker("Broker");;
 			int brokerId = broker.getId();
 
 			vmlist = sp.createVM(brokerId,sp.num_vms_singleDC*4); 
-			cloudletList = sp.createCloudletHeterogenous(brokerId,sp.cloudletNumber);
+			cloudletList = sp.createCloudletHeterogenous(brokerId,sp.cloudletNumber); 
 
 			broker.submitGuestList(vmlist);
 			broker.submitCloudletList(cloudletList);
@@ -77,7 +81,7 @@ public class baselineMultiDatacenterHeterogenous {
 
 			//printCloudletList(newList);
 			String path = "modules/cloudsim-simulations/src/main/java/results/";
-			sp.writeCloudletListToCSV(newList, path + "baselineMultiDatacenterHeterogenous.csv");
+			sp.writeCloudletListToCSV(newList, path + "ABC.csv");
 
 			Log.println("CloudSimExample6 finished!");
 		}
@@ -86,34 +90,5 @@ public class baselineMultiDatacenterHeterogenous {
 			e.printStackTrace();
 			Log.println("The simulation has been terminated due to an unexpected error");
 		}
-	}
-
-	/**
-	 * Prints the Cloudlet objects
-	 * @param list  list of Cloudlets
-	 */
-	private static void printCloudletList(List<Cloudlet> list) {
-		Cloudlet cloudlet;
-
-		String indent = "    ";
-		Log.println();
-		Log.println("========== OUTPUT ==========");
-		Log.println("Cloudlet ID" + indent + "STATUS" + indent +
-				"Data center ID" + indent + "VM ID" + indent + indent + "Time" + indent + "Start Time" + indent + "Finish Time");
-
-		DecimalFormat dft = new DecimalFormat("###.##");
-        for (Cloudlet value : list) {
-            cloudlet = value;
-            Log.print(indent + cloudlet.getCloudletId() + indent + indent);
-
-            if (cloudlet.getStatus() == Cloudlet.CloudletStatus.SUCCESS) {
-                Log.print("SUCCESS");
-
-                Log.println(indent + indent + cloudlet.getResourceId() + indent + indent + indent + cloudlet.getGuestId() +
-                        indent + indent + indent + dft.format(cloudlet.getActualCPUTime()) +
-                        indent + indent + dft.format(cloudlet.getExecStartTime()) + indent + indent + indent + dft.format(cloudlet.getExecFinishTime()));
-            }
-        }
-
 	}
 }

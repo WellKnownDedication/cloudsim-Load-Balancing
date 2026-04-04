@@ -8,8 +8,10 @@
  */
 
 
-package environments.baseline;
+package environments;
 
+import technicals.datacenterLarge;
+import technicals.datacenterSmall;
 import technicals.simulationParameters;
 
 import java.util.Calendar;
@@ -26,7 +28,7 @@ import org.cloudbus.cloudsim.core.CloudSim;
  * An example showing how to create
  * scalable simulations.
  */
-public class baselineSingularDatacenterHeterogenous {
+public class baselineSimulation {
 	public static DatacenterBroker broker;
 
 	/** The cloudlet list. */
@@ -51,15 +53,17 @@ public class baselineSingularDatacenterHeterogenous {
 
 			// Second step: Create Datacenters
 			//Datacenters are the resource providers in CloudSim. We need at least one of them to run a CloudSim simulation
-			Datacenter datacenter0 = sp.createDatacenter("Datacenter_0", sp.num_vms_singleDC, sp.bw, 1);
+			Datacenter datacenter0 = datacenterLarge.createDatacenter("Datacenter_0");
+			Datacenter datacenter1 = datacenterSmall.createDatacenter("Datacenter_1");
+			Datacenter datacenter2 = datacenterSmall.createDatacenter("Datacenter_2");
+			Datacenter datacenter3 = datacenterSmall.createDatacenter("Datacenter_3");
 
 			//Third step: Create Broker
 			broker = new DatacenterBroker("Broker");;
 			int brokerId = broker.getId();
 
-			vmlist = sp.createVM(brokerId,sp.num_vms_singleDC);
+			vmlist = sp.createVM(brokerId,sp.num_vms_singleDC*4); 
 			cloudletList = sp.createCloudletHeterogenous(brokerId,sp.cloudletNumber);
-
 
 			broker.submitGuestList(vmlist);
 			broker.submitCloudletList(cloudletList);
@@ -74,7 +78,7 @@ public class baselineSingularDatacenterHeterogenous {
 
 			//printCloudletList(newList);
 			String path = "modules/cloudsim-simulations/src/main/java/results/";
-			sp.writeCloudletListToCSV(newList, path + "baselineSingularDatacenterHeterogenous.csv");
+			sp.writeCloudletListToCSV(newList, path + "baseline.csv");
 
 			Log.println("CloudSimExample6 finished!");
 		}
@@ -84,4 +88,5 @@ public class baselineSingularDatacenterHeterogenous {
 			Log.println("The simulation has been terminated due to an unexpected error");
 		}
 	}
+
 }
