@@ -8,7 +8,7 @@
  */
 
 
-package environments;
+package environments.exp1;
 
 import technicals.datacenterLarge;
 import technicals.datacenterSmall;
@@ -67,17 +67,17 @@ public class GASimulation {
 
 			// Second step: Create Datacenters
 			//Datacenters are the resource providers in CloudSim. We need at least one of them to run a CloudSim simulation
-			Datacenter datacenter0 = datacenterLarge.createDatacenter("Datacenter_0");
+			Datacenter datacenter0 = datacenterSmall.createDatacenter("Datacenter_0");
 			Datacenter datacenter1 = datacenterSmall.createDatacenter("Datacenter_1");
 			Datacenter datacenter2 = datacenterSmall.createDatacenter("Datacenter_2");
-			Datacenter datacenter3 = datacenterSmall.createDatacenter("Datacenter_3");
+			Datacenter datacenter3 = datacenterLarge.createDatacenter("Datacenter_3");
 
 			//Third step: Create Broker
 			broker = new GeneticAlgorithmDatacenterBroker("Broker");;
 			int brokerId = broker.getId();
 
-			vmlist = sp.createVM(brokerId,sp.num_vms_singleDC*4); 
-			cloudletList = sp.createCloudletHeterogenous(brokerId,sp.cloudletNumber); 
+			vmlist = simulationParameters.createVM(brokerId,sp.numVmsExp1); 
+			cloudletList = simulationParameters.createCloudletHeterogenous(brokerId,sp.cloudletNumExp1); 
 
 			broker.submitGuestList(vmlist);
 			broker.submitCloudletList(cloudletList);
@@ -92,7 +92,8 @@ public class GASimulation {
 
 			//printCloudletList(newList);
 			String path = "modules/cloudsim-simulations/src/main/java/results/";
-			sp.writeCloudletListToCSV(newList, path + "GA.csv");
+			simulationParameters.writeCloudletListToCSV(newList, path + "GAexp1.csv");
+			System.out.println(brokerId);
 
 			Log.println("CloudSimExample6 finished!");
 		}

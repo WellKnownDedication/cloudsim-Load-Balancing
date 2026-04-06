@@ -3,44 +3,47 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
 import org.cloudbus.cloudsim.Cloudlet;
 import org.cloudbus.cloudsim.CloudletSchedulerSpaceShared;
-import org.cloudbus.cloudsim.Datacenter;
-import org.cloudbus.cloudsim.DatacenterCharacteristics;
 import org.cloudbus.cloudsim.Host;
-import org.cloudbus.cloudsim.Pe;
-import org.cloudbus.cloudsim.Storage;
 import org.cloudbus.cloudsim.UtilizationModel;
 import org.cloudbus.cloudsim.UtilizationModelStochastic;
 import org.cloudbus.cloudsim.Vm;
-import org.cloudbus.cloudsim.VmAllocationPolicySimple;
-import org.cloudbus.cloudsim.VmSchedulerTimeShared;
-import org.cloudbus.cloudsim.provisioners.BwProvisionerSimple;
-import org.cloudbus.cloudsim.provisioners.PeProvisionerSimple;
-import org.cloudbus.cloudsim.provisioners.RamProvisionerSimple;
 
 public class simulationParameters {
-	public int cloudletNumber = 5000;
-	public int num_vms_singleDC = 3;
+	public int cloudletNumExp1 = 100;
+	public int numVmsExp1 = 8;
 
 	public static List<Vm> createVM(int userId, final int vms) {
 		List<Vm> list = new ArrayList<>();
 
 		//VM Parameters
-		long size = 10000; //image size (MB)
-		int ram = 4000; //vm memory (MB)
-		int mips = 512;
+		long size = 2500; //image size (MB)
+		int ram = 1000; //vm memory (MB)
+		int mips = 200;
 		long bw = 500;
 		int pesNumber = 1; //number of cpus
 		String vmm = "Xen"; //VMM name
 
 		for(int i=0;i<vms;i++){
 			list.add(new Vm(i, userId, mips, pesNumber, ram, bw, size, vmm, new CloudletSchedulerSpaceShared()));
+			size = 2000+500;
+			ram = 2000+200;
+			mips = 200+100;
 		}
+
+		// //VM Parameters
+		// size = 2000;
+		// ram = 2000;
+		// mips = 500;
+		// bw = 500;
+
+		// for(int i=vms-2;i<vms;i++){
+		// 	list.add(new Vm(i, userId, mips, pesNumber, ram, bw, size, vmm, new CloudletSchedulerSpaceShared()));
+		// }
 
 		return list;
 	}
@@ -51,8 +54,8 @@ public class simulationParameters {
 
 		for(int i=0;i<cloudlets;i++){
 			long length = 20000 + rand.nextInt(30000);;
-			long fileSize = 700 + rand.nextInt(800); 
-			long outputSize = 700 + rand.nextInt(300);
+			long fileSize = 1000 + rand.nextInt(2000); 
+			long outputSize = 500 + rand.nextInt(1500);
 			int pesNumber = 1;
 			UtilizationModel utilizationModel = new UtilizationModelStochastic();
 			list.add(new Cloudlet(i, length, pesNumber, fileSize, outputSize, utilizationModel, utilizationModel, utilizationModel));
@@ -106,48 +109,53 @@ public class simulationParameters {
 	}
 
 	public static void writeVmListToCSV(List<Vm> list, String filePath) {
-    StringBuilder sb = new StringBuilder();
+    	StringBuilder sb = new StringBuilder();	
 
-    sb.append("VM ID,User ID,MIPS,PEs,RAM,BW,Size,CloudletScheduler\n");
+		sb.append("VM ID,User ID,MIPS,PEs,RAM,BW,Size,CloudletScheduler,Datacenter\n");
 
-    for (Vm vm : list) {
-        sb.append(vm.getId()).append(",");
-        sb.append(vm.getUserId()).append(",");
-        sb.append(vm.getMips()).append(",");
-        sb.append(vm.getNumberOfPes()).append(",");
-        sb.append(vm.getRam()).append(",");
-        sb.append(vm.getBw()).append(",");
-        sb.append(vm.getSize()).append("\n");
-    }
+		for (Vm vm : list) {
+			sb.append(vm.getId()).append(",");
+			sb.append(vm.getUserId()).append(",");
+			sb.append(vm.getMips()).append(",");
+			sb.append(vm.getNumberOfPes()).append(",");
+			sb.append(vm.getRam()).append(",");
+			sb.append(vm.getBw()).append(",");
+			sb.append(vm.getSize()).append(",");
+			if (vm.getHost() != null) {
+        		sb.append(vm.getHost().getDatacenter().getName()).append("\n");
+    		} else {
+        		sb.append("NotAllocated\n");
+    		}
+		}
 
-    try (FileWriter writer = new FileWriter(filePath)) {
-        writer.write(sb.toString());
-        System.out.println("VM results saved to " + filePath);
-    } catch (IOException e) {
-        e.printStackTrace();
-    }
+		try (FileWriter writer = new FileWriter(filePath)) {
+			writer.write(sb.toString());
+			System.out.println("VM results saved to " + filePath);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public static void writeHostListToCSV(List<Host> list, String filePath) {
-    StringBuilder sb = new StringBuilder();
+		StringBuilder sb = new StringBuilder();
 
-    sb.append("Host ID,PEs,MIPS,Total RAM,Total BW,Storage\n");
+		sb.append("Host ID,PEs,MIPS,Total RAM,Total BW,Storage\n");
 
-    for (Host host : list) {
-        sb.append(host.getId()).append(",");
-        sb.append(host.getNumberOfPes()).append(",");
-        sb.append(host.getTotalMips()).append(",");
-        sb.append(host.getRam()).append(",");
-        sb.append(host.getBw()).append(",");
-        sb.append(host.getStorage()).append("\n");
-    }
+		for (Host host : list) {
+			sb.append(host.getId()).append(",");
+			sb.append(host.getNumberOfPes()).append(",");
+			sb.append(host.getTotalMips()).append(",");
+			sb.append(host.getRam()).append(",");
+			sb.append(host.getBw()).append(",");
+			sb.append(host.getStorage()).append("\n");
+		}
 
-    try (FileWriter writer = new FileWriter(filePath)) {
-        writer.write(sb.toString());
-        System.out.println("Host results saved to " + filePath);
-    } catch (IOException e) {
-        e.printStackTrace();
-    }
+		try (FileWriter writer = new FileWriter(filePath)) {
+			writer.write(sb.toString());
+			System.out.println("Host results saved to " + filePath);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 }

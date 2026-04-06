@@ -31,7 +31,7 @@ public class datacenterSmall {
 
 		//4. Create Hosts with its id and list of PEs and add them to the list of machines
 		int hostId=0;
-		int ram = 4000; //host memory (MB)
+		int ram = 8000; //host memory (MB)
 		long storage = 10000;//host storage
 		int bw = 10000;
 

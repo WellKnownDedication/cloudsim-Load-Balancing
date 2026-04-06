@@ -8,7 +8,7 @@
  */
 
 
-package environments;
+package environments.exp3;
 
 import technicals.datacenterLarge;
 import technicals.datacenterSmall;
@@ -24,11 +24,14 @@ import org.cloudbus.cloudsim.Log;
 import org.cloudbus.cloudsim.Vm;
 import org.cloudbus.cloudsim.core.CloudSim;
 
+
+import brokers.CustomMLBased.ABCDatacenterBroker;
+
 /**
  * An example showing how to create
  * scalable simulations.
  */
-public class baselineSimulation {
+public class ABCSimulation {
 	public static DatacenterBroker broker;
 
 	/** The cloudlet list. */
@@ -53,17 +56,17 @@ public class baselineSimulation {
 
 			// Second step: Create Datacenters
 			//Datacenters are the resource providers in CloudSim. We need at least one of them to run a CloudSim simulation
-			Datacenter datacenter0 = datacenterLarge.createDatacenter("Datacenter_0");
+			Datacenter datacenter0 = datacenterSmall.createDatacenter("Datacenter_0");
 			Datacenter datacenter1 = datacenterSmall.createDatacenter("Datacenter_1");
 			Datacenter datacenter2 = datacenterSmall.createDatacenter("Datacenter_2");
-			Datacenter datacenter3 = datacenterSmall.createDatacenter("Datacenter_3");
+			Datacenter datacenter3 = datacenterLarge.createDatacenter("Datacenter_3");
 
 			//Third step: Create Broker
-			broker = new DatacenterBroker("Broker");;
+			broker = new ABCDatacenterBroker("Broker");;
 			int brokerId = broker.getId();
 
-			vmlist = sp.createVM(brokerId,sp.num_vms_singleDC*4); 
-			cloudletList = sp.createCloudletHeterogenous(brokerId,sp.cloudletNumber);
+			vmlist = simulationParameters.createVM(brokerId,sp.numVmsExp1); 
+			cloudletList = simulationParameters.createCloudletHeterogenous(brokerId,sp.cloudletNumExp1); 
 
 			broker.submitGuestList(vmlist);
 			broker.submitCloudletList(cloudletList);
@@ -78,7 +81,8 @@ public class baselineSimulation {
 
 			//printCloudletList(newList);
 			String path = "modules/cloudsim-simulations/src/main/java/results/";
-			sp.writeCloudletListToCSV(newList, path + "baseline.csv");
+			simulationParameters.writeCloudletListToCSV(newList, path + "ABC.csv");
+			System.out.println(brokerId);
 
 			Log.println("CloudSimExample6 finished!");
 		}
@@ -88,5 +92,4 @@ public class baselineSimulation {
 			Log.println("The simulation has been terminated due to an unexpected error");
 		}
 	}
-
 }
