@@ -23,7 +23,7 @@ public class datacenterMedium {
 		//    Machines
 		List<Host> hostList = new ArrayList<>();
 
-		int hostCount = 4;
+		int hostCount = 8;
 		int PeNumber = 4;
 		double cost_multiplier = 1.1;
 
@@ -32,7 +32,7 @@ public class datacenterMedium {
 		//4. Create Hosts with its id and list of PEs and add them to the list of machines
 		int hostId=0;
 		int ram = 16000; //host memory (MB)
-		long storage = 10000;//host storage
+		long storage = 50000;//host storage
 		int bw = 10000;
 
 		for (int i = 0; hostCount > i; i++){

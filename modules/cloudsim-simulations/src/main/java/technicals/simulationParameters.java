@@ -14,9 +14,9 @@ import org.cloudbus.cloudsim.UtilizationModelStochastic;
 import org.cloudbus.cloudsim.Vm;
 
 public class simulationParameters {
-	public int cloudletNumExp1 = 100;
+	public int cloudletNumExp1 = 200;
 	public int cloudletNumExp2 = 1000;
-	public int cloudletNumExp3 = 5000;
+	public int cloudletNumExp3 = 3000;
 	public int numVmsExp1 = 6;
 	public int numVmsExp2 = 8;
 	public int numVmsExp3 = 12;
