@@ -14,7 +14,7 @@ import org.cloudbus.cloudsim.provisioners.BwProvisionerSimple;
 import org.cloudbus.cloudsim.provisioners.PeProvisionerSimple;
 import org.cloudbus.cloudsim.provisioners.RamProvisionerSimple;
 
-public class datacenterLarge {
+public class datacenterMedium {
 
 	public static Datacenter createDatacenter(String name){
 
@@ -23,16 +23,16 @@ public class datacenterLarge {
 		//    Machines
 		List<Host> hostList = new ArrayList<>();
 
-		int hostCount = 8;
+		int hostCount = 4;
 		int PeNumber = 4;
-		double cost_multiplier = 1.3;
+		double cost_multiplier = 1.1;
 
-		int mips = 2000;
+		int mips = 1000;
 
 		//4. Create Hosts with its id and list of PEs and add them to the list of machines
 		int hostId=0;
-		int ram = 32000; //host memory (MB)
-		long storage = 50000;//host storage
+		int ram = 16000; //host memory (MB)
+		long storage = 10000;//host storage
 		int bw = 10000;
 
 		for (int i = 0; hostCount > i; i++){

@@ -11,6 +11,7 @@
 package environments.exp1;
 
 import technicals.datacenterLarge;
+import technicals.datacenterMedium;
 import technicals.datacenterSmall;
 import technicals.simulationParameters;
 
@@ -69,14 +70,14 @@ public class GASimulation {
 			//Datacenters are the resource providers in CloudSim. We need at least one of them to run a CloudSim simulation
 			Datacenter datacenter0 = datacenterSmall.createDatacenter("Datacenter_0");
 			Datacenter datacenter1 = datacenterSmall.createDatacenter("Datacenter_1");
-			Datacenter datacenter2 = datacenterSmall.createDatacenter("Datacenter_2");
+			Datacenter datacenter2 = datacenterMedium.createDatacenter("Datacenter_2");
 			Datacenter datacenter3 = datacenterLarge.createDatacenter("Datacenter_3");
 
 			//Third step: Create Broker
 			broker = new GeneticAlgorithmDatacenterBroker("Broker");;
 			int brokerId = broker.getId();
 
-			vmlist = simulationParameters.createVM(brokerId,sp.numVmsExp1); 
+			vmlist = simulationParameters.createVM(brokerId); 
 			cloudletList = simulationParameters.createCloudletHeterogenous(brokerId,sp.cloudletNumExp1); 
 
 			broker.submitGuestList(vmlist);

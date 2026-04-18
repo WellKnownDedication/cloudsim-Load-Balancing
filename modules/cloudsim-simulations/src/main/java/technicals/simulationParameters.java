@@ -15,7 +15,11 @@ import org.cloudbus.cloudsim.Vm;
 
 public class simulationParameters {
 	public int cloudletNumExp1 = 100;
-	public int numVmsExp1 = 8;
+	public int cloudletNumExp2 = 1000;
+	public int cloudletNumExp3 = 5000;
+	public int numVmsExp1 = 6;
+	public int numVmsExp2 = 8;
+	public int numVmsExp3 = 12;
 
 	public static List<Vm> createVM(int userId, final int vms) {
 		List<Vm> list = new ArrayList<>();
@@ -30,21 +34,44 @@ public class simulationParameters {
 
 		for(int i=0;i<vms;i++){
 			list.add(new Vm(i, userId, mips, pesNumber, ram, bw, size, vmm, new CloudletSchedulerSpaceShared()));
-			size = 2000+500;
-			ram = 2000+200;
-			mips = 200+100;
+			size = size+500;
+			ram = ram+200;
+			mips = mips+100;
+		}
+		return list;
+	}
+
+	public static List<Vm> createVM(int userId) {
+		List<Vm> list = new ArrayList<>();
+
+		//VM Parameters
+		long size = 2500; //image size (MB)
+		int ram = 1000; //vm memory (MB)
+		int mips = 200;
+		long bw = 500;
+		int pesNumber = 1; //number of cpus
+		String vmm = "Xen"; //VMM name
+
+		for(int i=0;i<4;i++){
+			size = 2000;
+			ram = 2000;
+			mips = 300;
+			list.add(new Vm(i, userId, mips, pesNumber, ram, bw, size, vmm, new CloudletSchedulerSpaceShared()));
 		}
 
-		// //VM Parameters
-		// size = 2000;
-		// ram = 2000;
-		// mips = 500;
-		// bw = 500;
+		for(int i=4;i<8;i++){
+			size = 4000;
+			ram = 4000;
+			mips = 600;
+			list.add(new Vm(i, userId, mips, pesNumber, ram, bw, size, vmm, new CloudletSchedulerSpaceShared()));
+		}
 
-		// for(int i=vms-2;i<vms;i++){
-		// 	list.add(new Vm(i, userId, mips, pesNumber, ram, bw, size, vmm, new CloudletSchedulerSpaceShared()));
-		// }
-
+		for(int i=8;i<12;i++){
+			size = 8000;
+			ram = 4000;
+			mips = 800;
+			list.add(new Vm(i, userId, mips, pesNumber, ram, bw, size, vmm, new CloudletSchedulerSpaceShared()));
+		}
 		return list;
 	}
 

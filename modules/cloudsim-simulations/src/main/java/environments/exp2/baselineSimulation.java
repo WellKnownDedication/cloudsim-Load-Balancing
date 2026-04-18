@@ -11,6 +11,7 @@
 package environments.exp2;
 
 import technicals.datacenterLarge;
+import technicals.datacenterMedium;
 import technicals.datacenterSmall;
 import technicals.simulationParameters;
 
@@ -55,16 +56,16 @@ public class baselineSimulation {
 			//Datacenters are the resource providers in CloudSim. We need at least one of them to run a CloudSim simulation
 			Datacenter datacenter0 = datacenterSmall.createDatacenter("Datacenter_0");
 			Datacenter datacenter1 = datacenterSmall.createDatacenter("Datacenter_1");
-			Datacenter datacenter2 = datacenterSmall.createDatacenter("Datacenter_2");
+			Datacenter datacenter2 = datacenterMedium.createDatacenter("Datacenter_2");
 			Datacenter datacenter3 = datacenterLarge.createDatacenter("Datacenter_3");
 
 			//Third step: Create Broker
 			broker = new DatacenterBroker("Broker");;
 			int brokerId = broker.getId();
 
-			vmlist = simulationParameters.createVM(brokerId,sp.numVmsExp1); 
+			vmlist = simulationParameters.createVM(brokerId); 
 			
-			cloudletList = simulationParameters.createCloudletHeterogenous(brokerId,sp.cloudletNumExp1);
+			cloudletList = simulationParameters.createCloudletHeterogenous(brokerId,sp.cloudletNumExp2);
 
 			broker.submitGuestList(vmlist);
 			broker.submitCloudletList(cloudletList);
@@ -80,7 +81,7 @@ public class baselineSimulation {
 			//printCloudletList(newList);
 			String path = "modules/cloudsim-simulations/src/main/java/results/";
 
-			simulationParameters.writeCloudletListToCSV(newList, path + "baseline.csv");
+			simulationParameters.writeCloudletListToCSV(newList, path + "baselineexp2.csv");
 			System.out.println(brokerId);
 
 			Log.println("CloudSimExample6 finished!");
