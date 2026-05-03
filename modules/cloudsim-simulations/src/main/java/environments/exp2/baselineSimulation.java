@@ -63,9 +63,8 @@ public class baselineSimulation {
 			broker = new DatacenterBroker("Broker");;
 			int brokerId = broker.getId();
 
-			vmlist = simulationParameters.createVM(brokerId); 
-			
-			cloudletList = simulationParameters.createCloudletHeterogenous(brokerId,sp.cloudletNumExp2);
+			vmlist = simulationParameters.createVMsGradually(brokerId, 12); 
+			cloudletList = simulationParameters.createCloudletHeterogenous(brokerId,sp.cloudletNumExp4);
 
 			broker.submitGuestList(vmlist);
 			broker.submitCloudletList(cloudletList);

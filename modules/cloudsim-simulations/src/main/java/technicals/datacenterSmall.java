@@ -33,7 +33,7 @@ public class datacenterSmall {
 		int hostId=0;
 		int ram = 8000; //host memory (MB)
 		long storage = 10000;//host storage
-		int bw = 10000;
+		int bw = 2000;
 
 		for (int i = 0; hostCount > i; i++){
 			List<Pe> peList = new ArrayList<>();

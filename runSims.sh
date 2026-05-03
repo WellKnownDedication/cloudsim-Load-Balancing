@@ -12,3 +12,8 @@ mvn exec:java -pl modules/cloudsim-simulations/ -Dexec.mainClass=environments.ex
 mvn exec:java -pl modules/cloudsim-simulations/ -Dexec.mainClass=environments.exp3.ABCSimulation
 mvn exec:java -pl modules/cloudsim-simulations/ -Dexec.mainClass=environments.exp3.GASimulation
 
+mvn exec:java -pl modules/cloudsim-simulations/ -Dexec.mainClass=environments.exp4.baselineSimulation
+mvn exec:java -pl modules/cloudsim-simulations/ -Dexec.mainClass=environments.exp4.ABCSimulation
+mvn exec:java -pl modules/cloudsim-simulations/ -Dexec.mainClass=environments.exp4.GASimulation
+
+

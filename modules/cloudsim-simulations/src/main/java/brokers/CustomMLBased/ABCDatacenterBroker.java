@@ -53,7 +53,7 @@ public class ABCDatacenterBroker extends DatacenterBroker {
             vms.set(idx, tmp2);
         }
 
-        final int NUM_BEES = 10;
+        final int NUM_BEES = 24;
         final int MAX_ITER = 50;
         final int LIMIT = numCloudlets % 5;
 
@@ -70,6 +70,12 @@ public class ABCDatacenterBroker extends DatacenterBroker {
         double bestScore = Double.MAX_VALUE;
 
         List<int[]> seeds = new ArrayList<>();
+        seeds.add(heuristicMCT(cloudlets, vms));
+        seeds.add(heuristicLPT(cloudlets, vms));
+        seeds.add(heuristicMinLoad(cloudlets, vms));
+        seeds.add(heuristicMCT(cloudlets, vms));
+        seeds.add(heuristicLPT(cloudlets, vms));
+        seeds.add(heuristicMinLoad(cloudlets, vms));
         seeds.add(heuristicMCT(cloudlets, vms));
         seeds.add(heuristicLPT(cloudlets, vms));
         seeds.add(heuristicMinLoad(cloudlets, vms));

@@ -15,27 +15,15 @@ import technicals.datacenterMedium;
 import technicals.datacenterSmall;
 import technicals.simulationParameters;
 
-import java.text.DecimalFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.LinkedList;
 import java.util.List;
 
 import org.cloudbus.cloudsim.Cloudlet;
 import org.cloudbus.cloudsim.Datacenter;
 import org.cloudbus.cloudsim.DatacenterBroker;
-import org.cloudbus.cloudsim.DatacenterCharacteristics;
-import org.cloudbus.cloudsim.Host;
 import org.cloudbus.cloudsim.Log;
-import org.cloudbus.cloudsim.Pe;
-import org.cloudbus.cloudsim.Storage;
 import org.cloudbus.cloudsim.Vm;
-import org.cloudbus.cloudsim.VmAllocationPolicySimple;
-import org.cloudbus.cloudsim.VmSchedulerTimeShared;
 import org.cloudbus.cloudsim.core.CloudSim;
-import org.cloudbus.cloudsim.provisioners.BwProvisionerSimple;
-import org.cloudbus.cloudsim.provisioners.PeProvisionerSimple;
-import org.cloudbus.cloudsim.provisioners.RamProvisionerSimple;
 
 import brokers.GeneticAlgorithm.GeneticAlgorithmDatacenterBroker;
 
@@ -77,8 +65,8 @@ public class GASimulation {
 			broker = new GeneticAlgorithmDatacenterBroker("Broker");;
 			int brokerId = broker.getId();
 
-			vmlist = simulationParameters.createVM(brokerId); 
-			cloudletList = simulationParameters.createCloudletHeterogenous(brokerId,sp.cloudletNumExp1); 
+			vmlist = simulationParameters.createVM(brokerId, 12); 
+			cloudletList = simulationParameters.createCloudletHeterogenous(brokerId,sp.cloudletNumExp4); 
 
 			broker.submitGuestList(vmlist);
 			broker.submitCloudletList(cloudletList);

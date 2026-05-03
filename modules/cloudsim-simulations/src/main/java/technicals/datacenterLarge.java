@@ -27,13 +27,13 @@ public class datacenterLarge {
 		int PeNumber = 4;
 		double cost_multiplier = 1.3;
 
-		int mips = 2000;
+		int mips = 4000;
 
 		//4. Create Hosts with its id and list of PEs and add them to the list of machines
 		int hostId=0;
-		int ram = 32000; //host memory (MB)
+		int ram = 16000; //host memory (MB)
 		long storage = 50000;//host storage
-		int bw = 10000;
+		int bw = 20000;
 
 		for (int i = 0; hostCount > i; i++){
 			List<Pe> peList = new ArrayList<>();

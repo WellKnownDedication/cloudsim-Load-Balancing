@@ -8,7 +8,7 @@
  */
 
 
-package environments.exp1;
+package environments.exp4;
 
 import technicals.datacenterLarge;
 import technicals.datacenterMedium;
@@ -56,15 +56,22 @@ public class baselineSimulation {
 			//Datacenters are the resource providers in CloudSim. We need at least one of them to run a CloudSim simulation
 			Datacenter datacenter0 = datacenterSmall.createDatacenter("Datacenter_0");
 			Datacenter datacenter1 = datacenterSmall.createDatacenter("Datacenter_1");
-			Datacenter datacenter2 = datacenterMedium.createDatacenter("Datacenter_2");
-			Datacenter datacenter3 = datacenterLarge.createDatacenter("Datacenter_3");
+			Datacenter datacenter2 = datacenterSmall.createDatacenter("Datacenter_2");
+			Datacenter datacenter3 = datacenterSmall.createDatacenter("Datacenter_3");
+			Datacenter datacenter4 = datacenterSmall.createDatacenter("Datacenter_4");
+			Datacenter datacenter5 = datacenterSmall.createDatacenter("Datacenter_5");
+			Datacenter datacenter6 = datacenterMedium.createDatacenter("Datacenter_6");
+			Datacenter datacenter7 = datacenterMedium.createDatacenter("Datacenter_7");
+			Datacenter datacenter8 = datacenterMedium.createDatacenter("Datacenter_8");
+			Datacenter datacenter9 = datacenterMedium.createDatacenter("Datacenter_9");
+			Datacenter datacenter10 = datacenterLarge.createDatacenter("Datacenter_10");
+			Datacenter datacenter11 = datacenterLarge.createDatacenter("Datacenter_11");
 
 			//Third step: Create Broker
 			broker = new DatacenterBroker("Broker");;
 			int brokerId = broker.getId();
 
-			vmlist = simulationParameters.createVM(brokerId, 12); 
-			
+			vmlist = simulationParameters.createVMsGradually(brokerId, sp.numVmsExp4); 
 			cloudletList = simulationParameters.createCloudletHeterogenous(brokerId,sp.cloudletNumExp4);
 
 			broker.submitGuestList(vmlist);
@@ -81,7 +88,7 @@ public class baselineSimulation {
 			//printCloudletList(newList);
 			String path = "modules/cloudsim-simulations/src/main/java/results/";
 
-			simulationParameters.writeCloudletListToCSV(newList, path + "baselineexp1.csv");
+			simulationParameters.writeCloudletListToCSV(newList, path + "baselineexp4.csv");
 			System.out.println(brokerId);
 
 			Log.println("CloudSimExample6 finished!");

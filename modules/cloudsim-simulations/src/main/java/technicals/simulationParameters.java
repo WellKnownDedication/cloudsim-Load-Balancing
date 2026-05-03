@@ -14,14 +14,11 @@ import org.cloudbus.cloudsim.UtilizationModelStochastic;
 import org.cloudbus.cloudsim.Vm;
 
 public class simulationParameters {
-	public int cloudletNumExp1 = 200;
 	public int cloudletNumExp2 = 1000;
-	public int cloudletNumExp3 = 3000;
-	public int numVmsExp1 = 6;
-	public int numVmsExp2 = 8;
-	public int numVmsExp3 = 12;
+	public int cloudletNumExp4 = 5000;
+	public int numVmsExp4 = 48;
 
-	public static List<Vm> createVM(int userId, final int vms) {
+	public static List<Vm> createVMsGradually(int userId, final int vms) {
 		List<Vm> list = new ArrayList<>();
 
 		//VM Parameters
@@ -32,41 +29,53 @@ public class simulationParameters {
 		int pesNumber = 1; //number of cpus
 		String vmm = "Xen"; //VMM name
 
+		long sizeMax = 8000;
+		int ramMax = 4000;
+		int mipsMax = 1000;
+
+		long sizeDiff = sizeMax - size;
+		int ramDiff = ramMax - ram;
+		int mipsDiff = mipsMax - mips;
+
 		for(int i=0;i<vms;i++){
 			list.add(new Vm(i, userId, mips, pesNumber, ram, bw, size, vmm, new CloudletSchedulerSpaceShared()));
-			size = size+500;
-			ram = ram+200;
-			mips = mips+100;
+			size = size + Math.round(sizeDiff/vms);
+			ram = ram + Math.round(ramDiff/vms);
+			mips = mips + Math.round(mipsDiff/vms);
 		}
 		return list;
 	}
 
-	public static List<Vm> createVM(int userId) {
+	public static List<Vm> createVM(int userId, final int vms) {
 		List<Vm> list = new ArrayList<>();
 
+		int first = Math.round(vms/3);
+		int second = 2 * first;
+		int third = 3 * first;
+
 		//VM Parameters
-		long size = 2500; //image size (MB)
-		int ram = 1000; //vm memory (MB)
-		int mips = 200;
+		long size; //image size (MB)
+		int ram ; //vm memory (MB)
+		int mips;
 		long bw = 500;
 		int pesNumber = 1; //number of cpus
 		String vmm = "Xen"; //VMM name
 
-		for(int i=0;i<4;i++){
+		for(int i=0;i<first;i++){
 			size = 2000;
 			ram = 2000;
-			mips = 300;
+			mips = 200;
 			list.add(new Vm(i, userId, mips, pesNumber, ram, bw, size, vmm, new CloudletSchedulerSpaceShared()));
 		}
 
-		for(int i=4;i<8;i++){
+		for(int i=first;i<second;i++){
 			size = 4000;
 			ram = 4000;
 			mips = 600;
 			list.add(new Vm(i, userId, mips, pesNumber, ram, bw, size, vmm, new CloudletSchedulerSpaceShared()));
 		}
 
-		for(int i=8;i<12;i++){
+		for(int i=second;i<third;i++){
 			size = 8000;
 			ram = 4000;
 			mips = 800;

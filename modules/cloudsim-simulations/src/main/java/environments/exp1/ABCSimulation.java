@@ -66,8 +66,8 @@ public class ABCSimulation {
 			broker = new ABCDatacenterBroker("Broker");;
 			int brokerId = broker.getId();
 
-			vmlist = simulationParameters.createVM(brokerId); 
-			cloudletList = simulationParameters.createCloudletHeterogenous(brokerId,sp.cloudletNumExp1); 
+			vmlist = simulationParameters.createVM(brokerId, 12); 
+			cloudletList = simulationParameters.createCloudletHeterogenous(brokerId,sp.cloudletNumExp4); 
 
 			broker.submitGuestList(vmlist);
 			broker.submitCloudletList(cloudletList);
